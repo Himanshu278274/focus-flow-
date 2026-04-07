@@ -8,17 +8,90 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app">
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="logo">
-      <div class="logo-icon">⏱️</div>
-      <div>
-        <div class="logo-text">FocusFlow</div>
-        <div class="logo-sub">Padhai Ka Saathi 📚</div>
+<!-- ═══════════════════ PAGE 1: TIMER ═══════════════════ -->
+<div class="page page-timer active" id="page1">
+
+  <div class="p1-topbar">
+    <div class="logo-mini">
+      <div class="logo-icon-mini">⏱️</div>
+      <span class="logo-text-mini">FocusFlow</span>
+    </div>
+    <button class="nav-btn" onclick="goToPage2()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mode Tabs -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" onclick="setMode('focus',this)">🎯 Focus</button>
+    <button class="mode-tab" onclick="setMode('short',this)">☕ Short</button>
+    <button class="mode-tab" onclick="setMode('long',this)">🛋️ Long</button>
+  </div>
+
+  <!-- CLOCK — tap to set time -->
+  <div class="clock-wrapper" onclick="openTimeModal()" title="Tap karke time set karo">
+    <div class="clock-hint">tap to set time ✏️</div>
+    <div class="flip-clock">
+      <div class="flip-unit">
+        <div class="flip-card" id="minCard">
+          <div class="flip-top"><span class="flip-num" id="minTop">25</span></div>
+          <div class="flip-bottom"><span class="flip-num" id="minBot">25</span></div>
+        </div>
+        <div class="flip-unit-label">Min</div>
+      </div>
+      <div class="flip-sep">:</div>
+      <div class="flip-unit">
+        <div class="flip-card" id="secCard">
+          <div class="flip-top"><span class="flip-num" id="secTop">00</span></div>
+          <div class="flip-bottom"><span class="flip-num" id="secBot">00</span></div>
+        </div>
+        <div class="flip-unit-label">Sec</div>
       </div>
     </div>
+  </div>
+
+  <!-- Session Dots -->
+  <div class="session-dots" id="sessionDots"></div>
+
+  <!-- Controls -->
+  <div class="timer-controls">
+    <button class="btn-icon" onclick="resetTimer()">↺</button>
+    <button class="btn-main" id="startBtn" onclick="toggleTimer()">▶ Shuru Karo</button>
+    <button class="btn-icon" onclick="skipSession()">⏭</button>
+  </div>
+
+  <!-- Status -->
+  <div class="status-text" id="statusText">
+    Ek <span class="hi">focus session</span> shuru karo — padhai karte hain! 📚
+  </div>
+
+  <!-- AI Praise Box -->
+  <div class="ai-box praise" id="aiBox">
+    <div class="ai-header">
+      <div class="ai-dot"></div>
+      <span class="ai-tag">AI Hype Man 🎉</span>
+    </div>
+    <div class="ai-msg" id="aiMsg"></div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════ PAGE 2: SETTINGS ═══════════════════ -->
+<div class="page page-settings" id="page2">
+
+  <div class="p2-topbar">
+    <button class="back-btn" onclick="goToPage1()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+      Back
+    </button>
+    <div class="p2-title">FocusFlow 📚</div>
     <div class="theme-switcher">
       <button class="theme-btn active" onclick="setTheme('dawn',this)" title="dawn">🌅</button>
       <button class="theme-btn" onclick="setTheme('night',this)" title="night">🌙</button>
@@ -27,170 +100,150 @@
       <button class="theme-btn" onclick="setTheme('mono',this)" title="mono">🖤</button>
       <button class="theme-btn" onclick="setTheme('pink',this)" title="pink">🌸</button>
     </div>
-  </header>
+  </div>
 
-  <div class="grid">
+  <div class="p2-content">
 
-    <!-- LEFT: TIMER -->
-    <div>
-      <div class="card timer-card">
-        <div class="card-label">⏱️ Timer</div>
-
-        <!-- Mode Tabs -->
-        <div class="mode-tabs">
-          <button class="mode-tab active" onclick="setMode('focus',this)">🎯 Focus</button>
-          <button class="mode-tab" onclick="setMode('short',this)">☕ Short Break</button>
-          <button class="mode-tab" onclick="setMode('long',this)">🛋️ Long Break</button>
-        </div>
-
-        <!-- Flip Clock -->
-        <div class="flip-clock">
-          <div class="flip-unit">
-            <div class="flip-card" id="minCard">
-              <div class="flip-top"><span class="flip-num" id="minTop">25</span></div>
-              <div class="flip-bottom"><span class="flip-num" id="minBot">25</span></div>
-            </div>
-            <div class="flip-unit-label">Min</div>
-          </div>
-          <div class="flip-sep">:</div>
-          <div class="flip-unit">
-            <div class="flip-card" id="secCard">
-              <div class="flip-top"><span class="flip-num" id="secTop">00</span></div>
-              <div class="flip-bottom"><span class="flip-num" id="secBot">00</span></div>
-            </div>
-            <div class="flip-unit-label">Sec</div>
-          </div>
-        </div>
-
-        <!-- Session Dots -->
-        <div class="session-dots" id="sessionDots"></div>
-
-        <!-- Controls -->
-        <div class="timer-controls">
-          <button class="btn-icon" onclick="resetTimer()">↺</button>
-          <button class="btn-main" id="startBtn" onclick="toggleTimer()">▶ Shuru Karo</button>
-          <button class="btn-icon" onclick="skipSession()">⏭</button>
-        </div>
-
-        <!-- Status -->
-        <div class="status-text" id="statusText">
-          Ek <span class="hi">focus session</span> shuru karo — padhai karte hain! 📚
-        </div>
-      </div>
-
-      <!-- Custom Time Sliders -->
-      <div class="card" style="margin-top:14px;">
-        <div class="card-label">⚙️ Apna Time Set Karo</div>
-        <div class="time-sliders">
-          <div class="slider-row">
-            <span class="slider-label">🎯 Focus</span>
-            <input type="range" class="slider" id="focusSlider" min="5" max="60" value="25" oninput="updateSlider('focus',this.value)">
-            <span class="slider-val" id="focusVal">25 min</span>
-          </div>
-          <div class="slider-row">
-            <span class="slider-label">☕ Short Break</span>
-            <input type="range" class="slider" id="shortSlider" min="1" max="15" value="5" oninput="updateSlider('short',this.value)">
-            <span class="slider-val" id="shortVal">5 min</span>
-          </div>
-          <div class="slider-row">
-            <span class="slider-label">🛋️ Long Break</span>
-            <input type="range" class="slider" id="longSlider" min="10" max="30" value="15" oninput="updateSlider('long',this.value)">
-            <span class="slider-val" id="longVal">15 min</span>
-          </div>
-          <div class="slider-row">
-            <span class="slider-label">🔁 Sessions</span>
-            <input type="range" class="slider" id="sessSlider" min="2" max="8" value="4" oninput="updateSlider('sess',this.value)">
-            <span class="slider-val" id="sessVal">4 sessions</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- AI Praise Box -->
-      <div class="ai-box praise" id="aiBox">
-        <div class="ai-header">
-          <div class="ai-dot"></div>
-          <span class="ai-tag" id="aiTag">AI Hype Man 🎉</span>
-        </div>
-        <div class="ai-msg" id="aiMsg"></div>
+    <!-- Stats -->
+    <div class="card">
+      <div class="card-label">📊 Aaj Ka Hisaab</div>
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-num" id="statSessions">0</div><div class="stat-lbl">Sessions</div></div>
+        <div class="stat-box"><div class="stat-num" id="statMins">0</div><div class="stat-lbl">Min Padha</div></div>
+        <div class="stat-box"><div class="stat-num" id="statStreak">0</div><div class="stat-lbl">🔥 Streak</div></div>
+        <div class="stat-box"><div class="stat-num" id="statGoal">4</div><div class="stat-lbl">🎯 Goal</div></div>
       </div>
     </div>
 
-    <!-- RIGHT: SIDEBAR -->
-    <div class="sidebar">
-
-      <!-- Stats -->
-      <div class="card">
-        <div class="card-label">📊 Aaj Ka Hisaab</div>
-        <div class="stats-grid">
-          <div class="stat-box"><div class="stat-num" id="statSessions">0</div><div class="stat-lbl">Sessions</div></div>
-          <div class="stat-box"><div class="stat-num" id="statMins">0</div><div class="stat-lbl">Min Padha</div></div>
-          <div class="stat-box"><div class="stat-num" id="statStreak">0</div><div class="stat-lbl">🔥 Streak</div></div>
-          <div class="stat-box"><div class="stat-num" id="statGoal">4</div><div class="stat-lbl">🎯 Goal</div></div>
+    <!-- Sliders -->
+    <div class="card">
+      <div class="card-label">⚙️ Apna Time Set Karo</div>
+      <div class="time-sliders">
+        <div class="slider-row">
+          <span class="slider-label">🎯 Focus</span>
+          <input type="range" class="slider" id="focusSlider" min="5" max="60" value="25" oninput="updateSlider('focus',this.value)">
+          <span class="slider-val" id="focusVal">25 min</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">☕ Short Break</span>
+          <input type="range" class="slider" id="shortSlider" min="1" max="15" value="5" oninput="updateSlider('short',this.value)">
+          <span class="slider-val" id="shortVal">5 min</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">🛋️ Long Break</span>
+          <input type="range" class="slider" id="longSlider" min="10" max="30" value="15" oninput="updateSlider('long',this.value)">
+          <span class="slider-val" id="longVal">15 min</span>
+        </div>
+        <div class="slider-row">
+          <span class="slider-label">🔁 Sessions</span>
+          <input type="range" class="slider" id="sessSlider" min="2" max="8" value="4" oninput="updateSlider('sess',this.value)">
+          <span class="slider-val" id="sessVal">4 sessions</span>
         </div>
       </div>
-
-      <!-- Music -->
-      <div class="card">
-        <div class="card-label">🎵 Focus Music</div>
-        <div class="music-tracks">
-          <div class="track" onclick="toggleTrack(0)">
-            <div class="track-icon">🌧️</div>
-            <div class="track-info"><div class="track-name">Rain & Thunder</div><div class="track-type">Nature Sounds</div></div>
-            <button class="track-play">▶</button>
-          </div>
-          <div class="track" onclick="toggleTrack(1)">
-            <div class="track-icon">☕</div>
-            <div class="track-info"><div class="track-name">Cafe Ambience</div><div class="track-type">Brown Noise</div></div>
-            <button class="track-play">▶</button>
-          </div>
-          <div class="track" onclick="toggleTrack(2)">
-            <div class="track-icon">🎵</div>
-            <div class="track-info"><div class="track-name">Chill Lo-fi Beats</div><div class="track-type">Study Music</div></div>
-            <button class="track-play">▶</button>
-          </div>
-          <div class="track" onclick="toggleTrack(3)">
-            <div class="track-icon">🪈</div>
-            <div class="track-info"><div class="track-name">Krishna Flute</div><div class="track-type">Meditation · Calm</div></div>
-            <button class="track-play">▶</button>
-          </div>
-          <div class="track" onclick="toggleTrack(4)">
-            <div class="track-icon">🌊</div>
-            <div class="track-info"><div class="track-name">Ocean Waves</div><div class="track-type">Nature Sounds</div></div>
-            <button class="track-play">▶</button>
-          </div>
-        </div>
-        <div class="volume-row">
-          <span class="vol-icon">🔈</span>
-          <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="40" oninput="setVolume(this.value)">
-          <span class="vol-icon">🔊</span>
-        </div>
-      </div>
-
-      <!-- Badges -->
-      <div class="card">
-        <div class="card-label">🏆 Badges & Achievements</div>
-        <div class="badges-grid" id="badgesGrid"></div>
-      </div>
-
-      <!-- Notes -->
-      <div class="card">
-        <div class="card-label">📝 Quick Notes</div>
-        <textarea class="notes-area" id="notesArea" placeholder="Yahan kuch bhi likh — jo padhna hai, doubts, ideas... 💭"></textarea>
-      </div>
-
-      <!-- History -->
-      <div class="card">
-        <div class="card-label">🕐 Session History</div>
-        <div class="history-list" id="historyList">
-          <div class="history-empty">Abhi koi session nahi hua 😴<br>Shuru karo bhai!</div>
-        </div>
-      </div>
-
     </div>
+
+    <!-- Music -->
+    <div class="card">
+      <div class="card-label">🎵 Focus Music</div>
+      <div class="music-tracks">
+        <div class="track" onclick="toggleTrack(0)">
+          <div class="track-icon">🌧️</div>
+          <div class="track-info"><div class="track-name">Rain & Thunder</div><div class="track-type">Nature Sounds</div></div>
+          <button class="track-play">▶</button>
+        </div>
+        <div class="track" onclick="toggleTrack(1)">
+          <div class="track-icon">☕</div>
+          <div class="track-info"><div class="track-name">Cafe Ambience</div><div class="track-type">Brown Noise</div></div>
+          <button class="track-play">▶</button>
+        </div>
+        <div class="track" onclick="toggleTrack(2)">
+          <div class="track-icon">🎵</div>
+          <div class="track-info"><div class="track-name">Chill Lo-fi Beats</div><div class="track-type">Study Music</div></div>
+          <button class="track-play">▶</button>
+        </div>
+        <div class="track" onclick="toggleTrack(3)">
+          <div class="track-icon">🪈</div>
+          <div class="track-info"><div class="track-name">Krishna Flute</div><div class="track-type">Meditation · Calm</div></div>
+          <button class="track-play">▶</button>
+        </div>
+        <div class="track" onclick="toggleTrack(4)">
+          <div class="track-icon">🌊</div>
+          <div class="track-info"><div class="track-name">Ocean Waves</div><div class="track-type">Nature Sounds</div></div>
+          <button class="track-play">▶</button>
+        </div>
+      </div>
+      <div class="volume-row">
+        <span class="vol-icon">🔈</span>
+        <input type="range" class="vol-slider" id="volSlider" min="0" max="100" value="40" oninput="setVolume(this.value)">
+        <span class="vol-icon">🔊</span>
+      </div>
+    </div>
+
+    <!-- Badges -->
+    <div class="card">
+      <div class="card-label">🏆 Badges & Achievements</div>
+      <div class="badges-grid" id="badgesGrid"></div>
+    </div>
+
+    <!-- Notes -->
+    <div class="card">
+      <div class="card-label">📝 Quick Notes</div>
+      <textarea class="notes-area" id="notesArea" placeholder="Yahan kuch bhi likh — jo padhna hai, doubts, ideas... 💭"></textarea>
+    </div>
+
+    <!-- History -->
+    <div class="card">
+      <div class="card-label">🕐 Session History</div>
+      <div class="history-list" id="historyList">
+        <div class="history-empty">Abhi koi session nahi hua 😴<br>Shuru karo bhai!</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- Badge Toast Notification -->
+<!-- ═══════════ TIME MODAL (tap on clock) ═══════════ -->
+<div class="modal-overlay" id="timeModal" onclick="closeTimeModal(event)">
+  <div class="modal-sheet">
+    <div class="modal-handle"></div>
+    <div class="modal-title">⏱️ Time Set Karo</div>
+
+    <div class="modal-sliders">
+      <div class="modal-row">
+        <div class="modal-label">🎯 Focus Time</div>
+        <div class="modal-controls">
+          <button class="adj-btn" onclick="adjustTime('focus',-5)">−5</button>
+          <button class="adj-btn" onclick="adjustTime('focus',-1)">−1</button>
+          <span class="modal-val" id="modalFocusVal">25 min</span>
+          <button class="adj-btn" onclick="adjustTime('focus',1)">+1</button>
+          <button class="adj-btn" onclick="adjustTime('focus',5)">+5</button>
+        </div>
+      </div>
+      <div class="modal-row">
+        <div class="modal-label">☕ Short Break</div>
+        <div class="modal-controls">
+          <button class="adj-btn" onclick="adjustTime('short',-1)">−1</button>
+          <span class="modal-val" id="modalShortVal">5 min</span>
+          <button class="adj-btn" onclick="adjustTime('short',1)">+1</button>
+        </div>
+      </div>
+      <div class="modal-row">
+        <div class="modal-label">🛋️ Long Break</div>
+        <div class="modal-controls">
+          <button class="adj-btn" onclick="adjustTime('long',-5)">−5</button>
+          <button class="adj-btn" onclick="adjustTime('long',-1)">−1</button>
+          <span class="modal-val" id="modalLongVal">15 min</span>
+          <button class="adj-btn" onclick="adjustTime('long',1)">+1</button>
+          <button class="adj-btn" onclick="adjustTime('long',5)">+5</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="modal-done" onclick="closeTimeModal()">Done ✓</button>
+  </div>
+</div>
+
+<!-- Badge Toast -->
 <div class="badge-toast" id="badgeToast">
   <span class="toast-icon" id="toastIcon">🏆</span>
   <span id="toastMsg">Badge unlock ho gaya!</span>

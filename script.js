@@ -3,6 +3,59 @@
    Padhai Ka Saathi 📚
 ═══════════════════════════════════════════ */
 
+/* ══════════════════════════════
+   PAGE NAVIGATION
+══════════════════════════════ */
+function goToPage2() {
+  document.getElementById('page1').classList.add('slide-out');
+  document.getElementById('page2').classList.add('slide-in');
+}
+function goToPage1() {
+  document.getElementById('page1').classList.remove('slide-out');
+  document.getElementById('page2').classList.remove('slide-in');
+}
+
+/* ══════════════════════════════
+   TIME MODAL (tap on clock)
+══════════════════════════════ */
+function openTimeModal() {
+  if (isRunning) return; // running pe open mat karo
+  syncModalVals();
+  document.getElementById('timeModal').classList.add('open');
+}
+function closeTimeModal(e) {
+  if (e && e.target !== document.getElementById('timeModal')) return;
+  document.getElementById('timeModal').classList.remove('open');
+}
+function syncModalVals() {
+  document.getElementById('modalFocusVal').textContent = customTimes.focus + ' min';
+  document.getElementById('modalShortVal').textContent = customTimes.short + ' min';
+  document.getElementById('modalLongVal').textContent  = customTimes.long  + ' min';
+  // Also sync sliders on page 2
+  document.getElementById('focusSlider').value = customTimes.focus;
+  document.getElementById('focusVal').textContent = customTimes.focus + ' min';
+  document.getElementById('shortSlider').value = customTimes.short;
+  document.getElementById('shortVal').textContent = customTimes.short + ' min';
+  document.getElementById('longSlider').value = customTimes.long;
+  document.getElementById('longVal').textContent = customTimes.long + ' min';
+}
+function adjustTime(type, delta) {
+  const limits = { focus: [5,60], short: [1,15], long: [5,30] };
+  const [mn, mx] = limits[type];
+  customTimes[type] = Math.min(mx, Math.max(mn, customTimes[type] + delta));
+  // Update modal display
+  document.getElementById('modal' + type.charAt(0).toUpperCase() + type.slice(1) + 'Val').textContent = customTimes[type] + ' min';
+  // Sync slider on page 2
+  document.getElementById(type + 'Slider').value = customTimes[type];
+  document.getElementById(type + 'Val').textContent = customTimes[type] + ' min';
+  // If current mode matches, update timer (only if not running)
+  if (type === currentMode && !isRunning) {
+    timeLeft = customTimes[type] * 60;
+    prevMin = -1; prevSec = -1;
+    initDisplay();
+  }
+}
+
 /* ── BADGES DATA ── */
 const BADGES = [
   { id: 'first',    icon: '🌱', name: 'Pehla Qadam',   req: '1 session karo'       },
@@ -55,8 +108,9 @@ function save() {
 ══════════════════════════════ */
 function setTheme(t, btn) {
   document.documentElement.setAttribute('data-theme', t);
-  document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  document.querySelectorAll('.theme-btn').forEach(b => {
+    b.classList.toggle('active', b.title === t);
+  });
   localStorage.setItem('ff2_theme', t);
 }
 
